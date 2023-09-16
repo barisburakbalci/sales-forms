@@ -9,6 +9,11 @@ namespace sales_forms.Data
         {
         }
 
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Form> Forms { get; set; }
+        public DbSet<Option> Options { get; set; }
+        public DbSet<Participant> Participants { get; set; }
         public DbSet<Question> Questions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

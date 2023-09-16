@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required Client client { get; set; }
-        public ICollection<Question>? Questions { get; set; }
+        public Client client { get; set; }
+        public ICollection<Question>? Questions { get; }
     }
 }

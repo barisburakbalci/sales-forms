@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<FormDbContext>(options => {
     var config = builder.Configuration;
-    var connectionString = config.GetConnectionString("TarifDb");
+    var connectionString = config.GetConnectionString("FormsDb");
 
     options.UseNpgsql(connectionString);
 });
