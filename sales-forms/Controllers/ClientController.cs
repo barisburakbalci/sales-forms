@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using sales_forms.Data;
+using sales_forms.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,36 +14,54 @@ namespace sales_forms.Controllers
     [Route("api/[controller]")]
     public class ClientController : Controller
     {
-        // GET: api/values
+        public FormDbContext _dbContext;
+
+        public ClientController(FormDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Client> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _dbContext.Clients.ToList<Client>();
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Client? Get(int id)
         {
-            return "value";
+            return _dbContext.Clients.FirstOrDefault<Client>(q => q.Id == id);
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody] Client client)
         {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Clients.Add(client);
+                _dbContext.SaveChanges();
+            }
+
+            return Created("/Client/" + client.Id.ToString(), client);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] Client client)
         {
+            var existingClient = _dbContext.Clients.Single<Client>(q => q.Id == id);
+            if (ModelState.IsValid)
+            {
+                _dbContext.Entry(existingClient).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+            }
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var existingClient = _dbContext.Clients.Single<Client>(q => q.Id == id);
+            _dbContext.Clients.Remove(existingClient);
+            _dbContext.SaveChanges();
         }
     }
 }
