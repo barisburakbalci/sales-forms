@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,15 +35,18 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Client client)
+        public IActionResult Post([FromBody] ClientCreateViewModel clientData)
         {
             if (ModelState.IsValid)
             {
+                // TODO: Convert ID to autoincrement index
+                var client = new Client() { Name= clientData.Name, Id =1 };
                 _dbContext.Clients.Add(client);
                 _dbContext.SaveChanges();
+                return Created("/Client/" + client.Id.ToString(), client);
             }
 
-            return Created("/Client/" + client.Id.ToString(), client);
+            return BadRequest();
         }
 
         [HttpPut("{id}")]
