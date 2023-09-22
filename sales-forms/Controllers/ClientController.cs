@@ -39,11 +39,10 @@ namespace sales_forms.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Convert ID to autoincrement index
-                var client = new Client() { Name= clientData.Name, Id =1 };
+                var client = new Client{ Name = clientData.Name };
                 _dbContext.Clients.Add(client);
                 _dbContext.SaveChanges();
-                return Created("/Client/" + client.Id.ToString(), client);
+                return Created("/client/" + client.Id.ToString(), client);
             }
 
             return BadRequest();
