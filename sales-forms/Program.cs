@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using sales_forms.Data;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,17 @@ builder.Services.AddDbContext<FormDbContext>(options => {
     var config = builder.Configuration;
     var connectionString = config.GetConnectionString("FormsDb");
 
-    options.UseNpgsql(connectionString);
+    if (builder.Environment.IsDevelopment())
+    {
+        string relativePath = @"Data\Database.db";
+        var parentdir = Directory.GetCurrentDirectory();
+        string absolutePath = Path.Combine(parentdir, relativePath);
+        connectionString = string.Format("Data Source={0};", absolutePath);
+        options.UseSqlite(connectionString);
+    } else
+    {
+        options.UseNpgsql(connectionString);
+    }
 });
 
 var app = builder.Build();
