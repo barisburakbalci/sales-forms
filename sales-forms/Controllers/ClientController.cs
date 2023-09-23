@@ -29,42 +29,68 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Client? Get(int id)
+        public IActionResult Get(int id)
         {
-            return _dbContext.Clients.FirstOrDefault<Client>(q => q.Id == id);
+            Client? client = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
+
+            if (client == null)
+            {
+                return NotFound("Client not found!");
+            }
+
+            return Ok(client);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] ClientCreateViewModel clientData)
+        public IActionResult Post([FromBody] ClientCreateViewModel clientVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var client = new Client{ Name = clientData.Name };
-                _dbContext.Clients.Add(client);
-                _dbContext.SaveChanges();
-                return Created("/client/" + client.Id.ToString(), client);
+                return BadRequest();
             }
 
-            return BadRequest();
+            var client = new Client { Name = clientVM.Name };
+            _dbContext.Clients.Add(client);
+            _dbContext.SaveChanges();
+
+            return Created("/client/" + client.Id.ToString(), client);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Client client)
+        public IActionResult Put(int id, [FromBody] ClientCreateViewModel client)
         {
-            var existingClient = _dbContext.Clients.Single<Client>(q => q.Id == id);
-            if (ModelState.IsValid)
+            Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
+            
+            if (existingClient == null)
             {
-                _dbContext.Entry(existingClient).State = EntityState.Modified;
-                _dbContext.SaveChanges();
+                return NotFound();
             }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            existingClient.Name = client.Name;
+            _dbContext.SaveChanges();
+
+            return Ok(existingClient);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var existingClient = _dbContext.Clients.Single<Client>(q => q.Id == id);
+            var existingClient = _dbContext.Clients.SingleOrDefault<Client>(q => q.Id == id);
+
+            if (existingClient == null)
+            {
+                return NotFound();
+            }
+
             _dbContext.Clients.Remove(existingClient);
             _dbContext.SaveChanges();
+
+            return Ok();
         }
     }
 }
