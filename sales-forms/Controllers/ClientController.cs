@@ -35,7 +35,7 @@ namespace sales_forms.Controllers
 
             if (client == null)
             {
-                return NotFound("Client not found!");
+                return NotFound();
             }
 
             return Ok(client);
@@ -44,11 +44,6 @@ namespace sales_forms.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] ClientCreateViewModel clientVM)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             var client = new Client { Name = clientVM.Name };
             _dbContext.Clients.Add(client);
             _dbContext.SaveChanges();
@@ -64,11 +59,6 @@ namespace sales_forms.Controllers
             if (existingClient == null)
             {
                 return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
             }
 
             existingClient.Name = client.Name;
