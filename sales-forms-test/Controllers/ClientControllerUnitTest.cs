@@ -15,48 +15,51 @@ namespace sales_forms_test.Controllers
             var optionsBuilder = new DbContextOptionsBuilder<FormDbContext>();
             optionsBuilder.UseInMemoryDatabase("TestDb");
             _dbContext = new(optionsBuilder.Options);
-            _controller = new ClientController(_dbContext);
+            _controller = new(_dbContext);
         }
 
         [Test]
         public void CreateClient_Valid()
         {
-            var response = _controller.Post(new ClientCreateViewModel{ Name = "Tulpar Kauçuk" });
-            Assert.That(response, Is.InstanceOf<CreatedResult>());
+            var client = new ClientCreateViewModel { Name = "Tulpar KauÃ§uk" };
+            Client? createdClient = _controller.Post(client);
+
+            Assert.That(createdClient, Is.Not.Null);
+            Assert.That(createdClient.Name, Is.EqualTo(client.Name));
         }
 
         [Test]
         public void UpdateClient_Valid()
         {
-            Client lastClient = new() { Name = "Aþkar Profil" };
+            Client lastClient = new() { Name = "AÅŸkar Profil" };
             _dbContext.Clients.Add(lastClient);
             _dbContext.SaveChanges();
-            var response = _controller.Put(lastClient.Id ,new ClientCreateViewModel { Name = "Tulpar Kauçuk" });
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var response = _controller.Put(lastClient.Id ,new ClientCreateViewModel { Name = "Tulpar KauÃ§uk" });
+            Assert.That(response, Is.InstanceOf<Client>());
         }
 
         [Test]
         public void UpdateClient_NotFound()
         {
-            var response = _controller.Put(100, new ClientCreateViewModel { Name = "Tulpar Kauçuk" });
-            Assert.That(response, Is.InstanceOf<NotFoundResult>());
+            var response = _controller.Put(100, new ClientCreateViewModel { Name = "Tulpar KauÃ§uk" });
+            Assert.That(response, Is.Null);
         }
 
         [Test]
         public void DeleteClient_Valid()
         {
-            Client lastClient = new() { Name = "Gözpa Kauçuk" };
+            Client lastClient = new() { Name = "GÃ¶zpa KauÃ§uk" };
             _dbContext.Clients.Add(lastClient);
             _dbContext.SaveChanges();
             var response = _controller.Delete(lastClient.Id);
-            Assert.That(response, Is.InstanceOf<OkResult>());
+            Assert.That(response, Is.InstanceOf<Client>());
         }
 
         [Test]
         public void DeleteClient_NotFound()
         {
             var response = _controller.Delete(100);
-            Assert.That(response, Is.InstanceOf<NotFoundResult>());
+            Assert.That(response, Is.Null);
         }
 
         [Test]
@@ -64,8 +67,10 @@ namespace sales_forms_test.Controllers
         {
             _dbContext.Clients.Add(new Client{ Name = "Mezepotamya" });
             _dbContext.SaveChanges();
-            IEnumerable<Client> response = _controller.Get();
-            Assert.That(response.Count<Client>(), Is.GreaterThanOrEqualTo(1));
+            IEnumerable<Client> clients = _controller.Get();
+
+
+            Assert.That(clients.Count(), Is.GreaterThanOrEqualTo(1));
         }
 
         [Test]
@@ -75,15 +80,15 @@ namespace sales_forms_test.Controllers
             _dbContext.Clients.Add(lastClient);
             _dbContext.SaveChanges();
 
-            var response = _controller.Get(lastClient.Id);
-            Assert.That(response, Is.InstanceOf<OkObjectResult>());
+            var client = _controller.Get(lastClient.Id);
+            Assert.That(client, Is.InstanceOf<Client>());
         }
 
         [Test]
         public void GetClient_NotFound()
         {
             var response = _controller.Get(100);
-            Assert.That(response, Is.InstanceOf<NotFoundResult>());
+            Assert.That(response, Is.Null);
         }
 
         [OneTimeTearDown]

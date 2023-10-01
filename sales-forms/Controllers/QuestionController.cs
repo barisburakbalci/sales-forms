@@ -19,13 +19,13 @@ namespace sales_forms.Controllers
         [HttpGet]
         public IEnumerable<Question> Get()
         {
-            return _dbContext.Questions.ToList<Question>();
+            return _dbContext.Questions.ToList();
         }
 
         [HttpGet("{id}")]
         public Question? Get(int id)
         {
-            return _dbContext.Questions.FirstOrDefault<Question>(q => q.Id == id);
+            return _dbContext.Questions.FirstOrDefault(q => q.Id == id);
         }
 
         [HttpPost]

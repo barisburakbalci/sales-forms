@@ -25,62 +25,54 @@ namespace sales_forms.Controllers
         [HttpGet]
         public IEnumerable<Client> Get()
         {
-            return _dbContext.Clients.ToList<Client>();
+            return _dbContext.Clients.ToList();
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public Client? Get(int id)
         {
             Client? client = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
 
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(client);
+            return client;
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] ClientCreateViewModel clientVM)
+        public Client? Post([FromBody] ClientCreateViewModel clientVM)
         {
-            var client = new Client { Name = clientVM.Name };
+            Client client = new() { Name = clientVM.Name };
             _dbContext.Clients.Add(client);
             _dbContext.SaveChanges();
 
-            return Created("/client/" + client.Id.ToString(), client);
+            return client;
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] ClientCreateViewModel client)
+        public Client? Put(int id, [FromBody] ClientCreateViewModel client)
         {
             Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
             
-            if (existingClient == null)
+            if (existingClient != null)
             {
-                return NotFound();
+                existingClient.Name = client.Name;
+                _dbContext.SaveChanges();
             }
 
-            existingClient.Name = client.Name;
-            _dbContext.SaveChanges();
-
-            return Ok(existingClient);
+            
+            return existingClient;
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public Client? Delete(int id)
         {
             var existingClient = _dbContext.Clients.SingleOrDefault<Client>(q => q.Id == id);
 
-            if (existingClient == null)
+            if (existingClient != null)
             {
-                return NotFound();
+                _dbContext.Clients.Remove(existingClient);
+                _dbContext.SaveChanges();
             }
 
-            _dbContext.Clients.Remove(existingClient);
-            _dbContext.SaveChanges();
-
-            return Ok();
+            return existingClient;
         }
     }
 }
