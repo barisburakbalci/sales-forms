@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
 using sales_forms.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace sales_forms.Controllers
 {
@@ -25,38 +24,44 @@ namespace sales_forms.Controllers
         [HttpGet("{id}")]
         public Question? Get(int id)
         {
-            return _dbContext.Questions.FirstOrDefault(q => q.Id == id);
+            return _dbContext.Questions.SingleOrDefault(q => q.Id == id);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Question question)
+        public Question? Post([FromBody] Question question)
         {
-            if (ModelState.IsValid)
-            {
-                _dbContext.Questions.Add(question);
-                _dbContext.SaveChanges();
-            }
+            _dbContext.Questions.Add(question);
+            _dbContext.SaveChanges();
 
-            return Created("/question/" + question.Id.ToString(), question);
+            return question;
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Question question)
+        public Question? Put(int id, [FromBody] Question question)
         {
-            var existingQuestion = _dbContext.Questions.Single<Question>(q => q.Id == id);
-            if (ModelState.IsValid)
+            var existingQuestion = _dbContext.Questions.SingleOrDefault(q => q.Id == id);
+
+            if (existingQuestion != null)
             {
-                _dbContext.Entry(existingQuestion).State = EntityState.Modified;
+                existingQuestion.Expression = question.Expression ?? existingQuestion.Expression;
                 _dbContext.SaveChanges();
             }
+
+            return existingQuestion;
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Question? Delete(int id)
         {
-            var existingQuestion = _dbContext.Questions.Single<Question>(q => q.Id == id);
-            _dbContext.Questions.Remove(existingQuestion);
-            _dbContext.SaveChanges();
+            var existingQuestion = _dbContext.Questions.SingleOrDefault(q => q.Id == id);
+
+            if (existingQuestion != null)
+            {
+                _dbContext.Questions.Remove(existingQuestion);
+                _dbContext.SaveChanges();
+            }
+
+            return existingQuestion;
         }
     }
 }
