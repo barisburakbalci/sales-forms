@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Data;
 using sales_forms.Models;
-using sales_forms.ViewModels;
+using sales_forms.ViewModels.ClientVM;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

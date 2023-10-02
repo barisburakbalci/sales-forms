@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
-using sales_forms.ViewModels;
+using sales_forms.ViewModels.ClientVM;
 
 namespace sales_forms_test.Controllers
 {
