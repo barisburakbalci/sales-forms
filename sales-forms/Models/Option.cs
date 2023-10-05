@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace sales_forms.Models
 {
@@ -6,8 +7,14 @@ namespace sales_forms.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
         public required Question Question { get; set; }
+
+        [Required]
         public required string Value { get; set; }
-        public int Weight { get; set; }
+
+        [Required]
+        public required int Weight { get; set; }
     }
 }
