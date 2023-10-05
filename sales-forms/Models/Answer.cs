@@ -7,9 +7,17 @@ namespace sales_forms.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
         public required Participant Participant { get; set; }
+
+        [Required]
         public required Question Question { get; set; }
+
+        [Required]
         public required string Value { get; set; }
-        public int Weight { get; set; }
+
+        [Required]
+        public required int Weight { get; set; }
     }
 }
