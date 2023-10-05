@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Data;
 using sales_forms.Models;
-using sales_forms.ViewModels.FormVM;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,9 +31,9 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Form? Post([FromBody] FormCreateViewModel formVM)
+        public Form? Post([FromBody] Form formData)
         {
-            Form form = new() { Name = formVM.Name, Client = new Client { Name = "Dummy" } };
+            Form form = new() { Name = formData.Name, Client = new Client { Name = "Dummy" } };
             _dbContext.Forms.Add(form);
             _dbContext.SaveChanges();
 
@@ -42,7 +41,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Form? Put(int id, [FromBody] FormCreateViewModel form)
+        public Form? Put(int id, [FromBody] Form form)
         {
             Form? existingForm = _dbContext.Forms.SingleOrDefault(q => q.Id == id);
 
