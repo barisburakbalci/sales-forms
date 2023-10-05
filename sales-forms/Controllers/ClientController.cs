@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Data;
 using sales_forms.Models;
-using sales_forms.ViewModels.ClientVM;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,9 +31,10 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Client? Post([FromBody] ClientCreateViewModel clientVM)
+        public Client Post([FromBody] Client clientData)
         {
-            Client client = new() { Name = clientVM.Name };
+            Client client = new() { Name = clientData.Name };
+
             _dbContext.Clients.Add(client);
             _dbContext.SaveChanges();
 
@@ -42,7 +42,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Client? Put(int id, [FromBody] ClientCreateViewModel client)
+        public Client? Put(int id, [FromBody] Client client)
         {
             Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
             
@@ -59,7 +59,7 @@ namespace sales_forms.Controllers
         [HttpDelete("{id}")]
         public Client? Delete(int id)
         {
-            var existingClient = _dbContext.Clients.SingleOrDefault<Client>(q => q.Id == id);
+            Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
 
             if (existingClient != null)
             {
