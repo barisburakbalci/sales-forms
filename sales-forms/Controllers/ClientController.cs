@@ -7,7 +7,7 @@ using sales_forms.Models;
 namespace sales_forms.Controllers
 {
     [Route("api/[controller]")]
-    public class ClientController : Controller
+    public class ClientController : ControllerBase
     {
         public FormDbContext _dbContext;
 

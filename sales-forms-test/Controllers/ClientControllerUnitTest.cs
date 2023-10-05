@@ -92,7 +92,6 @@ namespace sales_forms_test.Controllers
         [OneTimeTearDown]
         public void CleanUp()
         {
-            _controller.Dispose();
             _dbContext.Dispose();
         }
     }
