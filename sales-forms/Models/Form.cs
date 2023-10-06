@@ -12,7 +12,8 @@ namespace sales_forms.Models
         public required string Name { get; set; }
 
         [Required]
-        public required Client Client { get; set; }
+        public required long ClientId {  get; set; }
+        public Client? Client { get; set; }
 
         public ICollection<Question>? Questions { get; }
     }

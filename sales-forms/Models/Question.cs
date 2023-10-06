@@ -12,7 +12,8 @@ namespace sales_forms.Models
         public required string Expression { get; set; }
 
         [Required]
-        public required Form Form { get; set; }
+        public required long FormId { get; set; }
+        public Form? Form { get; set; }
 
         public ICollection<Answer>? Answers { get; }
         public ICollection<Option>? Options {  get; }

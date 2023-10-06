@@ -31,9 +31,8 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Form? Post([FromBody] Form formData)
+        public Form? Post([FromBody] Form form)
         {
-            Form form = new() { Name = formData.Name, Client = new Client { Name = "Dummy" } };
             _dbContext.Forms.Add(form);
             _dbContext.SaveChanges();
 

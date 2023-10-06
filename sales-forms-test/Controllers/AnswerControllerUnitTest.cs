@@ -19,7 +19,8 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateAnswer_Valid()
         {
-            Answer answer = GetAnswer();
+            Answer answer = GetDummyAnswer();
+
             Answer? createdAnswer = _controller.Post(answer);
 
             Assert.That(createdAnswer, Is.Not.Null);
@@ -29,21 +30,16 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateAnswer_Valid()
         {
-            Answer answer = GetAnswer();
+            Answer answer = GetDummyAnswer();
  
             _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
 
-            Participant differentParticipant = new()
-            {
-                Name = "Farklı bir participant",
-            };
-
             Answer updatedAnswer = new()
             {
-                Participant = differentParticipant,
-                Question = GetQuestion(),
-                Value = "100 metre",
+                ParticipantId = 1,
+                QuestionId = 1,
+                Value = "200 metre",
                 Weight = 10
             };
 
@@ -55,14 +51,17 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateAnswer_NotFound()
         {
-            var response = _controller.Put(100, GetAnswer());
+            Answer answer = GetDummyAnswer();
+
+            var response = _controller.Put(100, answer);
             Assert.That(response, Is.Null);
         }
 
         [Test]
         public void DeleteAnswer_Valid()
         {
-            Answer lastAnswer = GetAnswer();
+            Answer lastAnswer = GetDummyAnswer();
+
             _dbContext.Answers.Add(lastAnswer);
             _dbContext.SaveChanges();
             var response = _controller.Delete(lastAnswer.Id);
@@ -79,7 +78,9 @@ namespace sales_forms_test.Controllers
         [Test]
         public void GetAnswers()
         {
-            _dbContext.Answers.Add(GetAnswer());
+            Answer answer = GetDummyAnswer();
+
+            _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
             IEnumerable<Answer> answers = _controller.Get();
 
@@ -90,7 +91,8 @@ namespace sales_forms_test.Controllers
         [Test]
         public void GetAnswer_Valid()
         {
-            Answer answer = GetAnswer();
+            Answer answer = GetDummyAnswer();
+
             _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
 
@@ -105,65 +107,23 @@ namespace sales_forms_test.Controllers
             Assert.That(response, Is.Null);
         }
 
+        private static Answer GetDummyAnswer()
+        {
+            Answer answer = new()
+            {
+                Value = "100 metre",
+                Weight = 10,
+                ParticipantId = 1,
+                QuestionId = 1,
+            };
+
+            return answer;
+        }
+
         [OneTimeTearDown]
         public void CleanUp()
         {
             _dbContext.Dispose();
-        }
-
-        private Client GetClient()
-        {
-            Client client = new()
-            {
-                Name = "Müşteri"
-            };
-
-            return client;
-        }
-
-        private Form GetForm()
-        {
-            Form form = new()
-            {
-                Client = GetClient(),
-                Name = "Metrelik kauçuk satış formu"
-            };
-
-            return form;
-        }
-
-        private Question GetQuestion()
-        {
-            Question question = new()
-            {
-                Expression = "Ayda kaç metre alır?",
-                Form = GetForm()
-            };
-
-            return question;
-        }
-
-        private static Participant GetParticipant()
-        {
-            Participant participant = new()
-            {
-                Name = "Aşkar Profil",
-            };
-
-            return participant;
-        }
-
-        private Answer GetAnswer()
-        {
-            Answer answer = new()
-            {
-                Participant = GetParticipant(),
-                Question = GetQuestion(),
-                Value = "100 metre",
-                Weight = 10
-            };
-
-            return answer;
         }
     }
 }

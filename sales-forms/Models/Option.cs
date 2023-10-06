@@ -9,7 +9,8 @@ namespace sales_forms.Models
         public int Id { get; set; }
 
         [Required]
-        public required Question Question { get; set; }
+        public long QuestionId { get; set; }
+        public Question? Question { get; set; }
 
         [Required]
         public required string Value { get; set; }
