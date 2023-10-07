@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace sales_forms.Models
 {
@@ -11,13 +12,13 @@ namespace sales_forms.Models
         [Required]
         public required long ParticipantId { get; set; }
 
-        [ForeignKey("ParticipantId")]
+        [ForeignKey("ParticipantId"), JsonIgnore]
         public Participant? Participant { get; private set; }
 
         [Required]
         public required long QuestionId { get; set; }
         
-        [ForeignKey("QuestionId")]
+        [ForeignKey("QuestionId"), JsonIgnore]
         public Question? Question { get; private set; }
 
         [Required]

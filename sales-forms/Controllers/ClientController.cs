@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using sales_forms.Data;
 using sales_forms.Models;
 
@@ -19,7 +20,7 @@ namespace sales_forms.Controllers
         [HttpGet]
         public IEnumerable<Client> Get()
         {
-            return _dbContext.Clients.ToList();
+            return _dbContext.Clients.Include("Forms").ToList();
         }
 
         [HttpGet("{id}")]

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace sales_forms.Models
 {
@@ -14,7 +15,7 @@ namespace sales_forms.Models
         [Required]
         public required long ClientId {  get; set; }
 
-        [ForeignKey("ClientId")]
+        [ForeignKey("ClientId"), JsonIgnore]
         public Client? Client { get; set; }
 
         public ICollection<Question>? Questions { get; }
