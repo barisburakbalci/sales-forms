@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
 using sales_forms.Data;
+using sales_forms.ViewModels;
+using System.Reflection;
 
 namespace sales_forms.Controllers
 {
@@ -30,6 +32,7 @@ namespace sales_forms.Controllers
         [HttpPost]
         public Answer? Post([FromBody] Answer answer)
         {
+
             _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
 
@@ -37,14 +40,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Answer? Put(int id, [FromBody] Answer answer)
+        public Answer? Put(int id, [FromBody] UpdateAnswerVM answer)
         {
             var existingAnswer = _dbContext.Answers.SingleOrDefault(q => q.Id == id);
 
             if (existingAnswer != null)
             {
-                existingAnswer.Value = answer.Value ?? existingAnswer.Value;
-                existingAnswer.Weight = answer.Weight > 0 ? answer.Weight : existingAnswer.Weight;
+                _dbContext.Entry(existingAnswer).CurrentValues.SetValues(answer);
                 _dbContext.SaveChanges();
             }
 
