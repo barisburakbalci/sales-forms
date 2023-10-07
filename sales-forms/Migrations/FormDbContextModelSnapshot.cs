@@ -18,14 +18,14 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Answer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ParticipantId")
+                    b.Property<long>("ParticipantId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<long>("QuestionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Value")
@@ -46,7 +46,7 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Client", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -61,11 +61,11 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Form", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClientId")
+                    b.Property<long>("ClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -81,11 +81,11 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Option", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<long>("QuestionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Value")
@@ -104,7 +104,7 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Participant", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -122,7 +122,7 @@ namespace sales_forms.Migrations
 
             modelBuilder.Entity("sales_forms.Models.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -130,7 +130,7 @@ namespace sales_forms.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("FormId")
+                    b.Property<long>("FormId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
