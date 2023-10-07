@@ -6,7 +6,7 @@ namespace sales_forms.Models
     public class Participant
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; private init; }
 
         [Required]
         public required string Name { get; set; }

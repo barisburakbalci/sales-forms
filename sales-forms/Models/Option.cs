@@ -6,10 +6,12 @@ namespace sales_forms.Models
     public class Option
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public long Id { get; private init; }
 
         [Required]
         public long QuestionId { get; set; }
+
+        [ForeignKey("QuestionId")]
         public Question? Question { get; set; }
 
         [Required]
