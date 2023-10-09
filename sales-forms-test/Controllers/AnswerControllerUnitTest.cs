@@ -47,24 +47,18 @@ namespace sales_forms_test.Controllers
                 ParticipantId = 1,
                 QuestionId = 1,
                 Value = "200 metre",
-                Weight = 10
             };
-
 
             var response = _controller.Put(answer.Id, updatedAnswer);
             Assert.That(response, Is.InstanceOf<Answer>());
+            Assert.That(answer.Weight, Is.EqualTo(10));
+            
         }
 
         [Test]
         public void UpdateAnswer_NotFound()
         {
-            UpdateAnswerVM updatedAnswer = new()
-            {
-                ParticipantId = 1,
-                QuestionId = 1,
-                Value = "200 metre",
-                Weight = 10
-            };
+            UpdateAnswerVM updatedAnswer = new();
 
             var response = _controller.Put(100, updatedAnswer);
             Assert.That(response, Is.Null);

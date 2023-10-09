@@ -12,7 +12,5 @@ namespace sales_forms.Models
         public required string Name { get; set; }
 
         public ICollection<Answer>? Answers { get; }
-
-        public int Score { get; set; }
     }
 }

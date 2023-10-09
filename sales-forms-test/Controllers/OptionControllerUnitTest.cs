@@ -50,7 +50,6 @@ namespace sales_forms_test.Controllers
             {
                 QuestionId = 1,
                 Value = "200 metre",
-                Weight = 10
             };
 
 

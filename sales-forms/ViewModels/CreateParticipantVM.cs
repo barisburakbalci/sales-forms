@@ -8,8 +8,6 @@ namespace sales_forms.ViewModels
         [Required]
         public required string Name { get; set; }
 
-        public int Score { get; set; }
-
         public static explicit operator Participant(CreateParticipantVM participantVM)
         {
             return new Participant
