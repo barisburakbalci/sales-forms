@@ -22,7 +22,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Participant? Get(int id)
+        public Participant? Get(long id)
         {
             return _dbContext.Participants.SingleOrDefault(q => q.Id == id);
         }
@@ -37,7 +37,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Participant? Put(int id, [FromBody] Participant participant)
+        public Participant? Put(long id, [FromBody] Participant participant)
         {
             var existingParticipant = _dbContext.Participants.SingleOrDefault(q => q.Id == id);
 
@@ -51,7 +51,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Participant? Delete(int id)
+        public Participant? Delete(long id)
         {
             var existingParticipant = _dbContext.Participants.SingleOrDefault(q => q.Id == id);
 

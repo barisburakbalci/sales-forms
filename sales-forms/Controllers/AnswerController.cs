@@ -24,7 +24,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Answer? Get(int id)
+        public Answer? Get(long id)
         {
             return _dbContext.Answers.SingleOrDefault(q => q.Id == id);
         }
@@ -40,7 +40,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Answer? Put(int id, [FromBody] UpdateAnswerVM answer)
+        public Answer? Put(long id, [FromBody] UpdateAnswerVM answer)
         {
             var existingAnswer = _dbContext.Answers.SingleOrDefault(q => q.Id == id);
 
@@ -54,7 +54,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Answer? Delete(int id)
+        public Answer? Delete(long id)
         {
             var existingAnswer = _dbContext.Answers.SingleOrDefault(q => q.Id == id);
 

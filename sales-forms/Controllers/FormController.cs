@@ -23,7 +23,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Form? Get(int id)
+        public Form? Get(long id)
         {
             Form? form = _dbContext.Forms.SingleOrDefault(q => q.Id == id);
 
@@ -40,7 +40,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Form? Put(int id, [FromBody] Form form)
+        public Form? Put(long id, [FromBody] Form form)
         {
             Form? existingForm = _dbContext.Forms.SingleOrDefault(q => q.Id == id);
 
@@ -55,7 +55,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Form? Delete(int id)
+        public Form? Delete(long id)
         {
             var existingForm = _dbContext.Forms.SingleOrDefault<Form>(q => q.Id == id);
 

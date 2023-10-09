@@ -22,7 +22,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Option? Get(int id)
+        public Option? Get(long id)
         {
             return _dbContext.Options.SingleOrDefault(q => q.Id == id);
         }
@@ -37,7 +37,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Option? Put(int id, [FromBody] Option option)
+        public Option? Put(long id, [FromBody] Option option)
         {
             var existingOption = _dbContext.Options.SingleOrDefault(q => q.Id == id);
 
@@ -51,7 +51,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Option? Delete(int id)
+        public Option? Delete(long id)
         {
             var existingOption = _dbContext.Options.SingleOrDefault(q => q.Id == id);
 

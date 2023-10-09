@@ -24,7 +24,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}")]
-        public Client? Get(int id)
+        public Client? Get(long id)
         {
             Client? client = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
 
@@ -43,7 +43,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Client? Put(int id, [FromBody] Client client)
+        public Client? Put(long id, [FromBody] Client client)
         {
             Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
             
@@ -58,7 +58,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public Client? Delete(int id)
+        public Client? Delete(long id)
         {
             Client? existingClient = _dbContext.Clients.SingleOrDefault(q => q.Id == id);
 
