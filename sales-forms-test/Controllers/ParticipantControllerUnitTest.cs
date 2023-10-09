@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,7 +20,10 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateParticipant_Valid()
         {
-            Participant participant = GetDummyParticipant();
+            CreateParticipantVM participant = new()
+            {
+                Name = "Dummy Participant",
+            };
 
             Participant? createdParticipant = _controller.Post(participant);
 
@@ -35,9 +39,9 @@ namespace sales_forms_test.Controllers
             _dbContext.Participants.Add(participant);
             _dbContext.SaveChanges();
 
-            Participant updatedParticipant = new()
+            UpdateParticipantVM updatedParticipant = new()
             {
-                Name = "Updated Participant",
+                Name = "Updated Participant"
             };
 
 
@@ -48,7 +52,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateParticipant_NotFound()
         {
-            Participant participant = GetDummyParticipant();
+            UpdateParticipantVM participant = new();
 
             var response = _controller.Put(100, participant);
             Assert.That(response, Is.Null);

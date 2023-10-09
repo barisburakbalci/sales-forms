@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,7 +20,11 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateQuestion_Valid()
         {
-            Question question = GetDummyQuestion();
+            CreateQuestionVM question = new()
+            {
+                Expression = "Aylï¿½k kaï¿½ metre kauï¿½uk satï¿½n alï¿½yor?",
+                FormId = 1,
+            };
 
             Question? createdQuestion = _controller.Post(question);
 
@@ -30,13 +35,21 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateQuestion_Valid()
         {
-            Question question = GetDummyQuestion();
- 
+            Question question = new()
+            {
+                Expression = "Aylï¿½k kaï¿½ metre kauï¿½uk satï¿½n alï¿½yor?",
+                FormId = 1,
+            };
+
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
 
-            Question updatedQuestion = GetDummyQuestion();
-            updatedQuestion.Expression = $"{updatedQuestion.Expression} güncellendi";
+            UpdateQuestionVM updatedQuestion = new()
+            {
+                Expression = "Aylï¿½k kaï¿½ metre kauï¿½uk satï¿½n alï¿½yor?",
+                FormId = 1,
+            };
+            updatedQuestion.Expression = $"{updatedQuestion.Expression} gï¿½ncellendi";
 
 
             var response = _controller.Put(question.Id, updatedQuestion);
@@ -46,7 +59,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateQuestion_NotFound()
         {
-            Question question = GetDummyQuestion();
+            UpdateQuestionVM question = new();
 
             var response = _controller.Put(100, question);
             Assert.That(response, Is.Null);
@@ -105,7 +118,7 @@ namespace sales_forms_test.Controllers
         {
             Question question = new()
             {
-                Expression = "Aylýk kaç metre kauçuk satýn alýyor?",
+                Expression = "Aylï¿½k kaï¿½ metre kauï¿½uk satï¿½n alï¿½yor?",
                 FormId = 1,
             };
 

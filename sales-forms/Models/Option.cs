@@ -10,7 +10,7 @@ namespace sales_forms.Models
         public long Id { get; private init; }
 
         [Required]
-        public long QuestionId { get; set; }
+        public required long QuestionId { get; set; }
 
         [ForeignKey("QuestionId"), JsonIgnore]
         public Question? Question { get; set; }

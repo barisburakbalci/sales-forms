@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using sales_forms.Models;
 
 namespace sales_forms.ViewModels
 {
@@ -6,5 +7,13 @@ namespace sales_forms.ViewModels
     {
         [Required]
         public required string Name { get; set; }
+
+        public static explicit operator Client(CreateClientVM clientVM)
+        {
+            return new Client
+            {
+                Name = clientVM.Name
+            };
+        }
     }
 }

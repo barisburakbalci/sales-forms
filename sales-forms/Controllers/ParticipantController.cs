@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
 using sales_forms.Data;
+using sales_forms.ViewModels;
 
 namespace sales_forms.Controllers
 {
@@ -28,8 +29,9 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Participant? Post([FromBody] Participant participant)
+        public Participant? Post([FromBody] CreateParticipantVM participantData)
         {
+            Participant participant = (Participant)participantData;
             _dbContext.Participants.Add(participant);
             _dbContext.SaveChanges();
 
@@ -37,13 +39,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Participant? Put(long id, [FromBody] Participant participant)
+        public Participant? Put(long id, [FromBody] UpdateParticipantVM participant)
         {
             var existingParticipant = _dbContext.Participants.SingleOrDefault(q => q.Id == id);
 
             if (existingParticipant != null)
             {
-                existingParticipant.Name = participant.Name ?? existingParticipant.Name;
+                _dbContext.Participants.Entry(existingParticipant).CurrentValues.SetValues(participant);
                 _dbContext.SaveChanges();
             }
 

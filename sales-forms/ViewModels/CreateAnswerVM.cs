@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using sales_forms.Models;
 
 namespace sales_forms.ViewModels
 {
@@ -15,5 +16,16 @@ namespace sales_forms.ViewModels
 
         [Required]
         public required int Weight { get; set; }
+
+        public static explicit operator Answer(CreateAnswerVM answerVM)
+        {
+            return new Answer
+            {
+                ParticipantId = answerVM.ParticipantId,
+                QuestionId = answerVM.QuestionId,
+                Value = answerVM.Value,
+                Weight = answerVM.Weight
+            };
+        }
     }
 }

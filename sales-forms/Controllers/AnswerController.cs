@@ -30,9 +30,9 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Answer? Post([FromBody] Answer answer)
+        public Answer? Post([FromBody] CreateAnswerVM answerData)
         {
-
+            Answer answer = (Answer)answerData;
             _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
 
@@ -46,7 +46,7 @@ namespace sales_forms.Controllers
 
             if (existingAnswer != null)
             {
-                _dbContext.Entry(existingAnswer).CurrentValues.SetValues(answer);
+                _dbContext.Answers.Entry(existingAnswer).CurrentValues.SetValues(answer);
                 _dbContext.SaveChanges();
             }
 

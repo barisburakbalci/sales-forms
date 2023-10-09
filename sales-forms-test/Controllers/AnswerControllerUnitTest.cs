@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,12 +20,18 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateAnswer_Valid()
         {
-            Answer answer = GetDummyAnswer();
+            CreateAnswerVM createAnswerVM = new()
+            {
+                ParticipantId = 1,
+                QuestionId = 1,
+                Value = "200 metre",
+                Weight = 20
+            };
 
-            Answer? createdAnswer = _controller.Post(answer);
+            Answer? createdAnswer = _controller.Post(createAnswerVM);
 
             Assert.That(createdAnswer, Is.Not.Null);
-            Assert.That(createdAnswer.Value, Is.EqualTo(answer.Value));
+            Assert.That(createdAnswer.Value, Is.EqualTo(createAnswerVM.Value));
         }
 
         [Test]
@@ -35,7 +42,7 @@ namespace sales_forms_test.Controllers
             _dbContext.Answers.Add(answer);
             _dbContext.SaveChanges();
 
-            Answer updatedAnswer = new()
+            UpdateAnswerVM updatedAnswer = new()
             {
                 ParticipantId = 1,
                 QuestionId = 1,
@@ -51,9 +58,15 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateAnswer_NotFound()
         {
-            Answer answer = GetDummyAnswer();
+            UpdateAnswerVM updatedAnswer = new()
+            {
+                ParticipantId = 1,
+                QuestionId = 1,
+                Value = "200 metre",
+                Weight = 10
+            };
 
-            var response = _controller.Put(100, answer);
+            var response = _controller.Put(100, updatedAnswer);
             Assert.That(response, Is.Null);
         }
 

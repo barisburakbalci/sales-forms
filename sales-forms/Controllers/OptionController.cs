@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
 using sales_forms.Data;
+using sales_forms.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace sales_forms.Controllers
 {
@@ -28,8 +30,9 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Option? Post([FromBody] Option option)
+        public Option? Post([FromBody] CreateOptionVM optionData)
         {
+            Option option = (Option)optionData;
             _dbContext.Options.Add(option);
             _dbContext.SaveChanges();
 
@@ -37,13 +40,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Option? Put(long id, [FromBody] Option option)
+        public Option? Put(long id, [FromBody] UpdateOptionVM option)
         {
             var existingOption = _dbContext.Options.SingleOrDefault(q => q.Id == id);
 
             if (existingOption != null)
             {
-                existingOption.Value = option.Value ?? existingOption.Value;
+                _dbContext.Options.Entry(existingOption).CurrentValues.SetValues(option);
                 _dbContext.SaveChanges();
             }
 

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,7 +20,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateOption_Valid()
         {
-            Option option = new()
+            CreateOptionVM option = new()
             {
                 Value = "100 metre",
                 Weight = 10,
@@ -45,7 +46,7 @@ namespace sales_forms_test.Controllers
             _dbContext.Options.Add(option);
             _dbContext.SaveChanges();
 
-            Option updatedOption = new()
+            UpdateOptionVM updatedOption = new()
             {
                 QuestionId = 1,
                 Value = "200 metre",
@@ -60,7 +61,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateOption_NotFound()
         {
-            Option option = new()
+            UpdateOptionVM option = new()
             {
                 Value = "100 metre",
                 Weight = 10,

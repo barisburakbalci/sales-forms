@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,7 +20,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateClient_Valid()
         {
-            var client = new Client { Name = "Tulpar Kauçuk" };
+            CreateClientVM client = new() { Name = "Tulpar Kauçuk" };
             Client? createdClient = _controller.Post(client);
 
             Assert.That(createdClient, Is.Not.Null);
@@ -32,14 +33,14 @@ namespace sales_forms_test.Controllers
             Client lastClient = new() { Name = "Aşkar Profil" };
             _dbContext.Clients.Add(lastClient);
             _dbContext.SaveChanges();
-            var response = _controller.Put(lastClient.Id ,new Client { Name = "Tulpar Kauçuk" });
+            var response = _controller.Put(lastClient.Id ,new UpdateClientVM { Name = "Tulpar Kauçuk" });
             Assert.That(response, Is.InstanceOf<Client>());
         }
 
         [Test]
         public void UpdateClient_NotFound()
         {
-            var response = _controller.Put(100, new Client { Name = "Tulpar Kauçuk" });
+            var response = _controller.Put(100, new UpdateClientVM { Name = "Tulpar Kauçuk" });
             Assert.That(response, Is.Null);
         }
 

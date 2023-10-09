@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
 using sales_forms.Data;
+using sales_forms.ViewModels;
 
 namespace sales_forms.Controllers
 {
@@ -28,8 +30,9 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public Question? Post([FromBody] Question question)
+        public Question? Post([FromBody] CreateQuestionVM questionData)
         {
+            Question question = (Question)questionData;
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
 
@@ -37,13 +40,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public Question? Put(long id, [FromBody] Question question)
+        public Question? Put(long id, [FromBody] UpdateQuestionVM question)
         {
             var existingQuestion = _dbContext.Questions.SingleOrDefault(q => q.Id == id);
 
             if (existingQuestion != null)
             {
-                existingQuestion.Expression = question.Expression ?? existingQuestion.Expression;
+                _dbContext.Questions.Entry(existingQuestion).CurrentValues.SetValues(question);
                 _dbContext.SaveChanges();
             }
 

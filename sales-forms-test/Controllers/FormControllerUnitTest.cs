@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using sales_forms.Controllers;
 using sales_forms.Data;
 using sales_forms.Models;
+using sales_forms.ViewModels;
 
 namespace sales_forms_test.Controllers
 {
@@ -19,7 +20,11 @@ namespace sales_forms_test.Controllers
         [Test]
         public void CreateForm_Valid()
         {
-            Form form = GetDummyForm();
+            CreateFormVM form = new()
+            {
+                Name = "Dummy Form",
+                ClientId = 1,
+            };
 
             Form? createdForm = _controller.Post(form);
 
@@ -35,7 +40,7 @@ namespace sales_forms_test.Controllers
             _dbContext.Forms.Add(form);
             _dbContext.SaveChanges();
 
-            Form updatedForm = new()
+            UpdateFormVM updatedForm = new()
             {
                 Name = "Updated Form",
                 ClientId = 1,
@@ -49,7 +54,11 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateForm_NotFound()
         {
-            Form form = GetDummyForm();
+            UpdateFormVM form = new()
+            {
+                Name = "Dummy Form",
+                ClientId = 1,
+            };
 
             var response = _controller.Put(100, form);
             Assert.That(response, Is.Null);
