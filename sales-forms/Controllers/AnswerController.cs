@@ -46,7 +46,7 @@ namespace sales_forms.Controllers
 
             if (existingAnswer != null)
             {
-                _dbContext.Answers.Entry(existingAnswer).CurrentValues.SetValues(answer);
+                _dbContext.Answers.Entry(existingAnswer).CurrentValues.SetValues(answer.AsDictionary());
                 _dbContext.SaveChanges();
             }
 

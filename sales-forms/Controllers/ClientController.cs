@@ -49,7 +49,7 @@ namespace sales_forms.Controllers
             
             if (existingClient != null)
             {
-                _dbContext.Clients.Entry(existingClient).CurrentValues.SetValues(client);
+                _dbContext.Clients.Entry(existingClient).CurrentValues.SetValues(client.AsDictionary());
                 _dbContext.SaveChanges();
             }
 

@@ -2,7 +2,7 @@
 
 namespace sales_forms.ViewModels
 {
-    public class UpdateOptionVM
+    public class UpdateOptionVM : ViewModelBase
     {
         public long? QuestionId { get; set; }
         public string? Value { get; set; }

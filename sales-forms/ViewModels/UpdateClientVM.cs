@@ -2,7 +2,7 @@
 
 namespace sales_forms.ViewModels
 {
-    public class UpdateClientVM
+    public class UpdateClientVM : ViewModelBase
     {
         public string? Name { get; set; }
     }

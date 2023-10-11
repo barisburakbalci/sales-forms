@@ -45,7 +45,7 @@ namespace sales_forms.Controllers
 
             if (existingParticipant != null)
             {
-                _dbContext.Participants.Entry(existingParticipant).CurrentValues.SetValues(participant);
+                _dbContext.Participants.Entry(existingParticipant).CurrentValues.SetValues(participant.AsDictionary());
                 _dbContext.SaveChanges();
             }
 

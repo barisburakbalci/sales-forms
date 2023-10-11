@@ -47,7 +47,7 @@ namespace sales_forms.Controllers
 
             if (existingForm != null)
             {
-                _dbContext.Forms.Entry(existingForm).CurrentValues.SetValues(form);
+                _dbContext.Forms.Entry(existingForm).CurrentValues.SetValues(form.AsDictionary());
                 _dbContext.SaveChanges();
             }
 

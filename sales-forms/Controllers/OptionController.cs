@@ -46,7 +46,7 @@ namespace sales_forms.Controllers
 
             if (existingOption != null)
             {
-                _dbContext.Options.Entry(existingOption).CurrentValues.SetValues(option);
+                _dbContext.Options.Entry(existingOption).CurrentValues.SetValues(option.AsDictionary());
                 _dbContext.SaveChanges();
             }
 
