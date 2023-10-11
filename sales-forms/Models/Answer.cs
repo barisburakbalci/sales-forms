@@ -7,19 +7,19 @@ namespace sales_forms.Models
     public class Answer
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; private init; }
+        public long Id { get; set; }
 
         [Required]
         public required long ParticipantId { get; set; }
 
         [ForeignKey("ParticipantId"), JsonIgnore]
-        public Participant? Participant { get; private set; }
+        public Participant? Participant { get; set; }
 
         [Required]
         public required long QuestionId { get; set; }
         
         [ForeignKey("QuestionId"), JsonIgnore]
-        public Question? Question { get; private set; }
+        public Question? Question { get; set; }
 
         [Required]
         public required string Value { get; set; }

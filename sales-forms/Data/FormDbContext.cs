@@ -15,6 +15,58 @@ namespace sales_forms.Data
         public DbSet<Option> Options { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Question> Questions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Client>()
+                .HasData(new Client
+                {
+                    Id = 1,
+                    Name = "Test Client"
+                });
+
+            modelBuilder.Entity<Form>()
+                .HasData(new Form
+                {
+                    Id = 1,
+                    ClientId = 1,
+                    Name = "Test Form"
+                });
+
+            modelBuilder.Entity<Question>()
+                .HasData(new Question
+                {
+                    Id = 1,
+                    FormId = 1,
+                    Expression = "Test Question"
+                });
+
+            modelBuilder.Entity<Option>()
+                .HasData(new Option
+                {
+                    Id = 1,
+                    QuestionId = 1,
+                    Value = "Test Option",
+                    Weight = 10
+                });
+
+            modelBuilder.Entity<Participant>()
+                .HasData(new Participant
+                {
+                    Id = 1,
+                    Name = "Test Participant"
+                });
+
+            modelBuilder.Entity<Answer>()
+                .HasData(new Answer()
+                {
+                    Id = 1,
+                    ParticipantId = 1,
+                    QuestionId = 1,
+                    Value = "Test Answer",
+                    Weight = 10
+                });
+        }
     }
 }
 
