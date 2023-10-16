@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace sales_forms.Models
 {
-    public class Client : IdentityUser
+    public class Client : IdentityUser<long>
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override string Id { get; set; }
+        public override long Id { get; set; }
 
         [Required]
         public required string Name { get; set; }

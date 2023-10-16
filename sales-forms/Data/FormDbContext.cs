@@ -21,7 +21,7 @@ namespace sales_forms.Data
             modelBuilder.Entity<Client>()
                 .HasData(new Client
                 {
-                    Id = "first-client",
+                    Id = 1,
                     Name = "Test Client"
                 });
 
@@ -29,7 +29,7 @@ namespace sales_forms.Data
                 .HasData(new Form
                 {
                     Id = 1,
-                    ClientId = "first-client",
+                    ClientId = 1,
                     Name = "Test Form"
                 });
 

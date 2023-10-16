@@ -13,7 +13,7 @@ namespace sales_forms.Models
         public required string Name { get; set; }
 
         [Required]
-        public required string ClientId {  get; set; }
+        public required long ClientId {  get; set; }
 
         [ForeignKey("ClientId"), JsonIgnore]
         public Client? Client { get; set; }

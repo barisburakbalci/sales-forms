@@ -23,7 +23,7 @@ namespace sales_forms_test.Controllers
             CreateFormVM form = new()
             {
                 Name = "Dummy Form",
-                ClientId = "first-client",
+                ClientId = 1,
             };
 
             Form? createdForm = _controller.Post(form);
@@ -43,7 +43,6 @@ namespace sales_forms_test.Controllers
             UpdateFormVM updatedForm = new()
             {
                 Name = "Updated Form",
-                ClientId = "first-client",
             };
 
 
@@ -57,7 +56,6 @@ namespace sales_forms_test.Controllers
             UpdateFormVM form = new()
             {
                 Name = "Dummy Form",
-                ClientId = "no-client",
             };
 
             var response = _controller.Put(100, form);
@@ -119,7 +117,7 @@ namespace sales_forms_test.Controllers
             Form form = new()
             {
                 Name = "Dummy Form",
-                ClientId = "fist-client",
+                ClientId = 1,
             };
 
             return form;
