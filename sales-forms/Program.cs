@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using sales_forms.Data;
-using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +16,7 @@ builder.Services.AddDbContext<FormDbContext>(options => {
 
     if (builder.Environment.IsDevelopment())
     {
-        string relativePath = @"Data\Database.db";
+        string relativePath = Path.Combine("Data", "Database.db");
         var parentdir = Directory.GetCurrentDirectory();
         string absolutePath = Path.Combine(parentdir, relativePath);
         connectionString = string.Format("Data Source={0};", absolutePath);

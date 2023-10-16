@@ -40,7 +40,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void UpdateClient_NotFound()
         {
-            var response = _controller.Put(100, new UpdateClientVM { Name = "Tulpar Kauçuk" });
+            var response = _controller.Put("no-client", new UpdateClientVM { Name = "Tulpar Kauçuk" });
             Assert.That(response, Is.Null);
         }
 
@@ -57,7 +57,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void DeleteClient_NotFound()
         {
-            var response = _controller.Delete(100);
+            var response = _controller.Delete("no-client");
             Assert.That(response, Is.Null);
         }
 
@@ -86,7 +86,7 @@ namespace sales_forms_test.Controllers
         [Test]
         public void GetClient_NotFound()
         {
-            var response = _controller.Get(100);
+            var response = _controller.Get("unavailable-client");
             Assert.That(response, Is.Null);
         }
 
