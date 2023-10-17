@@ -22,9 +22,9 @@ namespace sales_forms.Models
         public Question? Question { get; set; }
 
         [Required]
-        public required string Value { get; set; }
+        public required long OptionId { get; set; }
 
-        [Required]
-        public required int Weight { get; set; }
+        [ForeignKey("QuestionId"), JsonIgnore]
+        public Option? Option { get; set; }
     }
 }

@@ -8,8 +8,6 @@ namespace sales_forms.ViewModels
 
         public long? QuestionId { get; set; }
 
-        public string? Value { get; set; }
-
-        public int? Weight { get; set; }
+        public long? OptionId { get; set; }
     }
 }

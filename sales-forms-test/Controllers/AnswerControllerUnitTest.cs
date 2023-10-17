@@ -24,14 +24,13 @@ namespace sales_forms_test.Controllers
             {
                 ParticipantId = 1,
                 QuestionId = 1,
-                Value = "200 metre",
-                Weight = 20
+                OptionId = 1
             };
 
             Answer? createdAnswer = _controller.Post(createAnswerVM);
 
             Assert.That(createdAnswer, Is.Not.Null);
-            Assert.That(createdAnswer.Value, Is.EqualTo(createAnswerVM.Value));
+            Assert.That(createdAnswer.OptionId, Is.EqualTo(createAnswerVM.OptionId));
         }
 
         [Test]
@@ -46,12 +45,12 @@ namespace sales_forms_test.Controllers
             {
                 ParticipantId = 1,
                 QuestionId = 1,
-                Value = "200 metre",
+                OptionId = 2
             };
 
             var response = _controller.Put(answer.Id, updatedAnswer);
             Assert.That(response, Is.InstanceOf<Answer>());
-            Assert.That(answer.Weight, Is.EqualTo(10));
+            Assert.That(answer.OptionId, Is.EqualTo(2));
             
         }
 
@@ -118,8 +117,7 @@ namespace sales_forms_test.Controllers
         {
             Answer answer = new()
             {
-                Value = "100 metre",
-                Weight = 10,
+                OptionId = 1,
                 ParticipantId = 1,
                 QuestionId = 1,
             };

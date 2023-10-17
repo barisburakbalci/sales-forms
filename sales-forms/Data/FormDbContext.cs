@@ -63,8 +63,7 @@ namespace sales_forms.Data
                     Id = 1,
                     ParticipantId = 1,
                     QuestionId = 1,
-                    Value = "Test Answer",
-                    Weight = 10
+                    OptionId = 1
                 });
         }
     }

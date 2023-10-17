@@ -12,10 +12,7 @@ namespace sales_forms.ViewModels
         public required long QuestionId { get; set; }
 
         [Required]
-        public required string Value { get; set; }
-
-        [Required]
-        public required int Weight { get; set; }
+        public required long OptionId { get; set; }
 
         public static explicit operator Answer(CreateAnswerVM answerVM)
         {
@@ -23,8 +20,7 @@ namespace sales_forms.ViewModels
             {
                 ParticipantId = answerVM.ParticipantId,
                 QuestionId = answerVM.QuestionId,
-                Value = answerVM.Value,
-                Weight = answerVM.Weight
+                OptionId = answerVM.OptionId
             };
         }
     }
