@@ -29,8 +29,14 @@
   <ItemGroup>
     <None Remove="Data\" />
     <None Remove="Migrations\" />
+    <None Remove="Repositories\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>
