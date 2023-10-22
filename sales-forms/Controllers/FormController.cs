@@ -60,7 +60,7 @@ namespace sales_forms.Controllers
         {
             var existingForm = _dbContext.Forms.SingleOrDefault(q => q.Id == id);
 
-            if (existingForm != null)
+            if (existingForm != null && existingForm.Name != "My Form")
             {
                 _dbContext.Forms.Remove(existingForm);
                 _dbContext.SaveChanges();
