@@ -13,10 +13,10 @@ namespace sales_forms.Models
         public required string Name { get; set; }
 
         [Required]
-        public required long ClientId {  get; set; }
+        public required long FolderId {  get; set; }
 
-        [ForeignKey("ClientId"), JsonIgnore]
-        public Client? Client { get; set; }
+        [ForeignKey("FolderId"), JsonIgnore]
+        public Folder? Folder { get; set; }
 
         public ICollection<Question>? Questions { get; }
     }

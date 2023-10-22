@@ -23,7 +23,7 @@ namespace sales_forms_test.Controllers
             CreateFormVM form = new()
             {
                 Name = "Dummy Form",
-                ClientId = 1,
+                FolderId = 1,
             };
 
             Form? createdForm = _controller.Post(form);
@@ -117,7 +117,7 @@ namespace sales_forms_test.Controllers
             Form form = new()
             {
                 Name = "Dummy Form",
-                ClientId = 1,
+                FolderId = 1,
             };
 
             return form;

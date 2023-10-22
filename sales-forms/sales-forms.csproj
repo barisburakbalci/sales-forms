@@ -31,10 +31,28 @@
     <None Remove="Migrations\" />
     <None Remove="Exceptions\" />
     <None Remove="Resources\" />
+    <None Remove="ViewModels\Answer\" />
+    <None Remove="ViewModels\Folder\" />
+    <None Remove="ViewModels\Form\" />
+    <None Remove="ViewModels\Option\" />
+    <None Remove="ViewModels\Participant\" />
+    <None Remove="ViewModels\Question\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Resources\" />
+    <Folder Include="ViewModels\Answer\" />
+    <Folder Include="ViewModels\Folder\" />
+    <Folder Include="ViewModels\Form\" />
+    <Folder Include="ViewModels\Option\" />
+    <Folder Include="ViewModels\Participant\" />
+    <Folder Include="ViewModels\Question\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Client.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\Folder.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
   </ItemGroup>
 </Project>

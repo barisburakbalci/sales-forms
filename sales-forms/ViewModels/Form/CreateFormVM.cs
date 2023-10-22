@@ -9,14 +9,14 @@ namespace sales_forms.ViewModels
         public required string Name { get; set; }
 
         [Required]
-        public required long ClientId { get; set; }
+        public required long FolderId { get; set; }
 
         public static explicit operator Form(CreateFormVM formVM)
         {
             return new Form
             {
                 Name = formVM.Name,
-                ClientId = formVM.ClientId
+                FolderId = formVM.FolderId
             };
         }
     }

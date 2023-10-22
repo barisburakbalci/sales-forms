@@ -3,16 +3,16 @@ using sales_forms.Models;
 
 namespace sales_forms.ViewModels
 {
-    public class CreateClientVM
+    public class CreateFolderVM
     {
         [Required]
         public required string Name { get; set; }
 
-        public static explicit operator Client(CreateClientVM clientVM)
+        public static explicit operator Folder(CreateFolderVM folderVM)
         {
-            return new Client
+            return new Folder
             {
-                Name = clientVM.Name
+                Name = folderVM.Name
             };
         }
     }

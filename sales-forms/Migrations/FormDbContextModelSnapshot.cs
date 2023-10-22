@@ -23,17 +23,13 @@ namespace sales_forms.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("OptionId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("ParticipantId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("QuestionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Weight")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -48,80 +44,57 @@ namespace sales_forms.Migrations
                         new
                         {
                             Id = 1L,
+                            OptionId = 1L,
                             ParticipantId = 1L,
-                            QuestionId = 1L,
-                            Value = "Test Answer",
-                            Weight = 10
+                            QuestionId = 1L
                         });
                 });
 
-            modelBuilder.Entity("sales_forms.Models.Client", b =>
+            modelBuilder.Entity("sales_forms.Models.Folder", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Folders");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "49dc063f-9278-4d44-b1cf-310871478ebe",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            Name = "Test Client",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false
+                            Name = "Test Folder"
+                        });
+                });
+
+            modelBuilder.Entity("sales_forms.Models.FolderPermission", b =>
+                {
+                    b.Property<long>("FolderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AccessType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FolderId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FolderPermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            FolderId = 1L,
+                            UserId = 1L,
+                            AccessType = 1
                         });
                 });
 
@@ -131,7 +104,7 @@ namespace sales_forms.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("ClientId")
+                    b.Property<long>("FolderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -140,7 +113,7 @@ namespace sales_forms.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("FolderId");
 
                     b.ToTable("Forms");
 
@@ -148,7 +121,7 @@ namespace sales_forms.Migrations
                         new
                         {
                             Id = 1L,
-                            ClientId = 1L,
+                            FolderId = 1L,
                             Name = "Test Form"
                         });
                 });
@@ -235,11 +208,87 @@ namespace sales_forms.Migrations
                         });
                 });
 
+            modelBuilder.Entity("sales_forms.Models.User", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9629456d-7b9f-467a-80ca-ffa7f89f4f67",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Test User",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
+                        });
+                });
+
             modelBuilder.Entity("sales_forms.Models.Answer", b =>
                 {
                     b.HasOne("sales_forms.Models.Participant", "Participant")
                         .WithMany("Answers")
                         .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sales_forms.Models.Option", "Option")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -249,20 +298,41 @@ namespace sales_forms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Option");
+
                     b.Navigation("Participant");
 
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("sales_forms.Models.Form", b =>
+            modelBuilder.Entity("sales_forms.Models.FolderPermission", b =>
                 {
-                    b.HasOne("sales_forms.Models.Client", "Client")
-                        .WithMany("Forms")
-                        .HasForeignKey("ClientId")
+                    b.HasOne("sales_forms.Models.Folder", "Folder")
+                        .WithMany("Permissions")
+                        .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("sales_forms.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Folder");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("sales_forms.Models.Form", b =>
+                {
+                    b.HasOne("sales_forms.Models.Folder", "Folder")
+                        .WithMany("Forms")
+                        .HasForeignKey("FolderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Folder");
                 });
 
             modelBuilder.Entity("sales_forms.Models.Option", b =>
@@ -287,9 +357,11 @@ namespace sales_forms.Migrations
                     b.Navigation("Form");
                 });
 
-            modelBuilder.Entity("sales_forms.Models.Client", b =>
+            modelBuilder.Entity("sales_forms.Models.Folder", b =>
                 {
                     b.Navigation("Forms");
+
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("sales_forms.Models.Form", b =>

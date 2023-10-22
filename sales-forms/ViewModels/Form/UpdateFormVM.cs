@@ -2,8 +2,9 @@
 
 namespace sales_forms.ViewModels
 {
-    public class UpdateClientVM : ViewModelBase
+    public class UpdateFormVM : ViewModelBase
     {
         public string? Name { get; set; }
+        public long? FolderId { get; set; }
     }
 }

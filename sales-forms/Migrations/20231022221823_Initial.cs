@@ -6,16 +6,43 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sales_forms.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityClient : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Clients",
+                name: "Folders",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Folders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Participants",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", nullable: true),
@@ -34,20 +61,7 @@ namespace sales_forms.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Participants",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Participants", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,15 +71,40 @@ namespace sales_forms.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    ClientId = table.Column<string>(type: "TEXT", nullable: false)
+                    FolderId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Forms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Forms_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
+                        name: "FK_Forms_Folders_FolderId",
+                        column: x => x.FolderId,
+                        principalTable: "Folders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FolderPermissions",
+                columns: table => new
+                {
+                    FolderId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<long>(type: "INTEGER", nullable: false),
+                    AccessType = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FolderPermissions", x => new { x.FolderId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_FolderPermissions_Folders_FolderId",
+                        column: x => x.FolderId,
+                        principalTable: "Folders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FolderPermissions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -91,34 +130,6 @@ namespace sales_forms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Answers",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ParticipantId = table.Column<long>(type: "INTEGER", nullable: false),
-                    QuestionId = table.Column<long>(type: "INTEGER", nullable: false),
-                    Value = table.Column<string>(type: "TEXT", nullable: false),
-                    Weight = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Participants_ParticipantId",
-                        column: x => x.ParticipantId,
-                        principalTable: "Participants",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Options",
                 columns: table => new
                 {
@@ -139,10 +150,43 @@ namespace sales_forms.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ParticipantId = table.Column<long>(type: "INTEGER", nullable: false),
+                    QuestionId = table.Column<long>(type: "INTEGER", nullable: false),
+                    OptionId = table.Column<long>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_Options_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Options",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Answers_Participants_ParticipantId",
+                        column: x => x.ParticipantId,
+                        principalTable: "Participants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Answers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
-                table: "Clients",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "first-client", 0, "761daa2d-54c5-4dfc-8125-cec68e88dc0e", null, false, false, null, "Test Client", null, null, null, null, false, "e363a118-c716-415f-aacc-ae300d5426d0", false, null });
+                table: "Folders",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1L, "Test Folder" });
 
             migrationBuilder.InsertData(
                 table: "Participants",
@@ -150,9 +194,19 @@ namespace sales_forms.Migrations
                 values: new object[] { 1L, "Test Participant" });
 
             migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1L, 0, "9629456d-7b9f-467a-80ca-ffa7f89f4f67", null, false, false, null, "Test User", null, null, null, null, false, null, false, null });
+
+            migrationBuilder.InsertData(
+                table: "FolderPermissions",
+                columns: new[] { "FolderId", "UserId", "AccessType" },
+                values: new object[] { 1L, 1L, 1 });
+
+            migrationBuilder.InsertData(
                 table: "Forms",
-                columns: new[] { "Id", "ClientId", "Name" },
-                values: new object[] { 1L, "first-client", "Test Form" });
+                columns: new[] { "Id", "FolderId", "Name" },
+                values: new object[] { 1L, 1L, "Test Form" });
 
             migrationBuilder.InsertData(
                 table: "Questions",
@@ -160,14 +214,14 @@ namespace sales_forms.Migrations
                 values: new object[] { 1L, "Test Question", 1L });
 
             migrationBuilder.InsertData(
-                table: "Answers",
-                columns: new[] { "Id", "ParticipantId", "QuestionId", "Value", "Weight" },
-                values: new object[] { 1L, 1L, 1L, "Test Answer", 10 });
-
-            migrationBuilder.InsertData(
                 table: "Options",
                 columns: new[] { "Id", "QuestionId", "Value", "Weight" },
                 values: new object[] { 1L, 1L, "Test Option", 10 });
+
+            migrationBuilder.InsertData(
+                table: "Answers",
+                columns: new[] { "Id", "OptionId", "ParticipantId", "QuestionId" },
+                values: new object[] { 1L, 1L, 1L, 1L });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_ParticipantId",
@@ -180,9 +234,14 @@ namespace sales_forms.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Forms_ClientId",
+                name: "IX_FolderPermissions_UserId",
+                table: "FolderPermissions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Forms_FolderId",
                 table: "Forms",
-                column: "ClientId");
+                column: "FolderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Options_QuestionId",
@@ -202,10 +261,16 @@ namespace sales_forms.Migrations
                 name: "Answers");
 
             migrationBuilder.DropTable(
+                name: "FolderPermissions");
+
+            migrationBuilder.DropTable(
                 name: "Options");
 
             migrationBuilder.DropTable(
                 name: "Participants");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Questions");
@@ -214,7 +279,7 @@ namespace sales_forms.Migrations
                 name: "Forms");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Folders");
         }
     }
 }

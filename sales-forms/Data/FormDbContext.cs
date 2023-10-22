@@ -9,28 +9,44 @@ namespace sales_forms.Data
         {
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Folder> Folders { get; set; }
         public DbSet<Form> Forms { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Participant> Participants { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<FolderPermission> FolderPermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Client>()
-                .HasData(new Client
+            modelBuilder.Entity<User>()
+                .HasData(new User
                 {
                     Id = 1,
-                    Name = "Test Client"
+                    Name = "Test User"
+                });
+            modelBuilder.Entity<Folder>()
+                .HasData(new Folder
+                {
+                    Id = 1,
+                    Name = "Test Folder"
                 });
 
             modelBuilder.Entity<Form>()
                 .HasData(new Form
                 {
                     Id = 1,
-                    ClientId = 1,
+                    FolderId = 1,
                     Name = "Test Form"
+                });
+
+            modelBuilder.Entity<FolderPermission>()
+                .HasData(new FolderPermission
+                {
+                    FolderId = 1,
+                    UserId = 1,
+                    AccessType = AccessType.Write
                 });
 
             modelBuilder.Entity<Question>()
@@ -58,7 +74,7 @@ namespace sales_forms.Data
                 });
 
             modelBuilder.Entity<Answer>()
-                .HasData(new Answer()
+                .HasData(new Answer
                 {
                     Id = 1,
                     ParticipantId = 1,
