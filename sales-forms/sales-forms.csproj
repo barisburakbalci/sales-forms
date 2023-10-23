@@ -37,6 +37,7 @@
     <None Remove="ViewModels\Option\" />
     <None Remove="ViewModels\Participant\" />
     <None Remove="ViewModels\Question\" />
+    <None Remove="ViewModels\AppUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
@@ -48,6 +49,7 @@
     <Folder Include="ViewModels\Option\" />
     <Folder Include="ViewModels\Participant\" />
     <Folder Include="ViewModels\Question\" />
+    <Folder Include="ViewModels\AppUser\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\Client.cs" />

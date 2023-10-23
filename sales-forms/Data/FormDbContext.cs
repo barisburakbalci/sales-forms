@@ -9,7 +9,7 @@ namespace sales_forms.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<Form> Forms { get; set; }
@@ -20,8 +20,8 @@ namespace sales_forms.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasData(new User
+            modelBuilder.Entity<AppUser>()
+                .HasData(new AppUser
                 {
                     Id = 1,
                     Name = "Test User"
@@ -45,7 +45,7 @@ namespace sales_forms.Data
                 .HasData(new FolderPermission
                 {
                     FolderId = 1,
-                    UserId = 1,
+                    AppUserId = 1,
                     AccessType = AccessType.Write
                 });
 

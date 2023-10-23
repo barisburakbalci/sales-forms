@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace sales_forms.Models
 {
-    [PrimaryKey(nameof(FolderId), nameof(UserId))]
+    [PrimaryKey(nameof(FolderId), nameof(AppUserId))]
 	public class FolderPermission
 	{
         [Required]
@@ -15,10 +15,10 @@ namespace sales_forms.Models
         public Folder? Folder { get; set; }
 
         [Required]
-        public required long UserId { get; set; }
+        public required long AppUserId { get; set; }
 
         [ForeignKey("UserId"), JsonIgnore]
-        public User? User { get; set; }
+        public AppUser? AppUser { get; set; }
 
         public AccessType AccessType { get; set; } = AccessType.Read;
     }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace sales_forms.Models
 {
-	public class User : IdentityUser<long>
+	public class AppUser : IdentityUser<long>
 	{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override long Id { get; set; }
