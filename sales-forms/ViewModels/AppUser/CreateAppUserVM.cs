@@ -11,7 +11,7 @@ namespace sales_forms.ViewModels
         [Required, EmailAddress]
         public required string Email { get; set; }
 
-        [Required]
+        [Required, MinLength(6), MaxLength(12)]
         public required string Password { get; set; }
 
         public static explicit operator AppUser(CreateAppUserVM userVM)
