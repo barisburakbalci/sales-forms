@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using sales_forms.Data;
+using sales_forms.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddIdentity<AppUser, AppRole>(options => { }).AddEntityFrameworkStores<FormDbContext>();
 
 builder.Services.AddDbContext<FormDbContext>(options => {
     var config = builder.Configuration;
@@ -21,7 +23,8 @@ builder.Services.AddDbContext<FormDbContext>(options => {
         string absolutePath = Path.Combine(parentdir, relativePath);
         connectionString = string.Format("Data Source={0};", absolutePath);
         options.UseSqlite(connectionString);
-    } else
+    }
+    else
     {
         options.UseNpgsql(connectionString);
     }

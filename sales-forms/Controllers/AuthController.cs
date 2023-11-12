@@ -1,8 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using sales_forms.Models;
-using sales_forms.Data;
 using sales_forms.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace sales_forms.Controllers
 {
@@ -10,35 +11,39 @@ namespace sales_forms.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public FormDbContext _dbContext;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AuthController(FormDbContext dbContext)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
-            _dbContext = dbContext;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginUserVM loginVM)
+        [HttpPost("login"), Authorize]
+        public async Task<IActionResult> Login([FromBody] LoginUserVM loginVM)
         {
-            string? password = (
-                from user in _dbContext.AppUsers
-                where user.Email == loginVM.Email
-                select user.PasswordHash
-            ).SingleOrDefault();
+            var signInResult = await _signInManager.PasswordSignInAsync(loginVM.Email, loginVM.Password, false, false);
 
-            // TODO: Hash passwords with a Custom Hash Service
-            if (password != null && password == loginVM.Password)
+            if (signInResult.Succeeded)
             {
-                return Ok("Login Success!");
+                return Ok("Başarılı giriş.");
             }
 
-            return BadRequest("Credentials are incorrect!");
+            return BadRequest("Girilen bilgiler yanlış!");
         }
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] CreateAppUserVM registerUserVM)
         {
-            // TODO: Use register instead of AppUser::Post
+            _userManager.CreateAsync(
+                new() {
+                    Name = registerUserVM.Name,
+                    Email = registerUserVM.Email,
+                },
+                registerUserVM.Password
+            );
+
             return Ok();
         }
     }
