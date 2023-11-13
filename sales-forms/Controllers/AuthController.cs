@@ -34,17 +34,23 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] CreateAppUserVM registerUserVM)
+        public async Task<IActionResult> Register([FromBody] CreateAppUserVM registerUserVM)
         {
-            _userManager.CreateAsync(
-                new() {
+            IdentityResult registrationResult = await _userManager.CreateAsync(
+                new AppUser()
+                {
                     Name = registerUserVM.Name,
                     Email = registerUserVM.Email,
                 },
                 registerUserVM.Password
             );
 
-            return Ok();
+            if (registrationResult.Succeeded)
+            {
+                return Ok("The user is registrated.");
+            }
+
+            return BadRequest("Given data is incompatible for registrating a user.");
         }
     }
 }
