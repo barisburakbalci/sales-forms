@@ -3,9 +3,8 @@ using sales_forms.Repositories.Interfaces;
 
 namespace sales_forms.Repositories
 {
-    public class Repository<TEntity, TModel> : IRepository<TEntity, TModel> 
+    public class Repository<TEntity> : IRepository<TEntity> 
         where TEntity : class, new()
-        where TModel : class, new()
     {
         private readonly FormDbContext _dbContext;
 
@@ -36,7 +35,7 @@ namespace sales_forms.Repositories
         public TEntity? Get(long id) => _dbContext.Set<TEntity>().Find(id);
         public List<TEntity> GetAll() => _dbContext.Set<TEntity>().ToList();
 
-        public bool Insert(long id, TModel model)
+        public bool Insert(long id)
         {
             TEntity? entity = Get(id);
 
@@ -55,7 +54,7 @@ namespace sales_forms.Repositories
             return false;
         }
 
-        public bool Update(long id, TModel model)
+        public bool Update(long id)
         {
             TEntity? entity = Get(id);
 
