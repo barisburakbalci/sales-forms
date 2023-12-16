@@ -44,6 +44,7 @@ namespace sales_forms.Data
             modelBuilder.Entity<FolderPermission>()
                 .HasData(new FolderPermission
                 {
+                    Id = 1,
                     FolderId = 1,
                     AppUserId = 1,
                     AccessType = AccessType.Write

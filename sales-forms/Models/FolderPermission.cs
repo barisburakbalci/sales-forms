@@ -8,6 +8,9 @@ namespace sales_forms.Models
     [PrimaryKey(nameof(FolderId), nameof(AppUserId))]
 	public class FolderPermission : BaseEntity
 	{
+        [Required]
+        public required long FolderId { get; set; }
+
         [ForeignKey("FolderId"), JsonIgnore]
         public Folder? Folder { get; set; }
 

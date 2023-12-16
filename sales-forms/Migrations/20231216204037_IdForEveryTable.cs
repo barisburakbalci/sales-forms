@@ -6,11 +6,38 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sales_forms.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class IdForEveryTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AppUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Folders",
                 columns: table => new
@@ -38,30 +65,29 @@ namespace sales_forms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "FolderPermissions",
                 columns: table => new
                 {
+                    FolderId = table.Column<long>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<long>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<long>(type: "INTEGER", nullable: true),
+                    AccessType = table.Column<int>(type: "INTEGER", nullable: false),
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_FolderPermissions", x => new { x.FolderId, x.AppUserId });
+                    table.ForeignKey(
+                        name: "FK_FolderPermissions_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FolderPermissions_Folders_FolderId",
+                        column: x => x.FolderId,
+                        principalTable: "Folders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,31 +106,6 @@ namespace sales_forms.Migrations
                         name: "FK_Forms_Folders_FolderId",
                         column: x => x.FolderId,
                         principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FolderPermissions",
-                columns: table => new
-                {
-                    FolderId = table.Column<long>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<long>(type: "INTEGER", nullable: false),
-                    AccessType = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FolderPermissions", x => new { x.FolderId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_FolderPermissions_Folders_FolderId",
-                        column: x => x.FolderId,
-                        principalTable: "Folders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FolderPermissions_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -184,6 +185,11 @@ namespace sales_forms.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AppUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1L, 0, "885aa077-cdc8-43b3-9c67-ddd2bec3efa8", null, false, false, null, "Test User", null, null, null, null, false, null, false, null });
+
+            migrationBuilder.InsertData(
                 table: "Folders",
                 columns: new[] { "Id", "Name" },
                 values: new object[] { 1L, "Test Folder" });
@@ -194,14 +200,9 @@ namespace sales_forms.Migrations
                 values: new object[] { 1L, "Test Participant" });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1L, 0, "9629456d-7b9f-467a-80ca-ffa7f89f4f67", null, false, false, null, "Test User", null, null, null, null, false, null, false, null });
-
-            migrationBuilder.InsertData(
                 table: "FolderPermissions",
-                columns: new[] { "FolderId", "UserId", "AccessType" },
-                values: new object[] { 1L, 1L, 1 });
+                columns: new[] { "AppUserId", "FolderId", "AccessType", "Id", "UserId" },
+                values: new object[] { 1L, 1L, 1, 1L, null });
 
             migrationBuilder.InsertData(
                 table: "Forms",
@@ -270,7 +271,7 @@ namespace sales_forms.Migrations
                 name: "Participants");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "AppUsers");
 
             migrationBuilder.DropTable(
                 name: "Questions");

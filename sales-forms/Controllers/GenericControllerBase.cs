@@ -8,7 +8,7 @@ using sales_forms.Models;
 namespace sales_forms.Controllers
 {
     public class GenericControllerBase<TEntity, TCreateVM, TUpdateVM> 
-        where TEntity : class, IBaseEntity, new()
+        where TEntity : class, IBaseEntity
         where TCreateVM : class
         where TUpdateVM : class, IUpdateVM
     {

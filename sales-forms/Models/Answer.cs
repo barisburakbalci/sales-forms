@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace sales_forms.Models
 {
-    public class Answer
+    public class Answer : BaseEntity
     {
         [Required]
         public required long ParticipantId { get; set; }
