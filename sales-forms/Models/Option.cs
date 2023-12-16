@@ -4,11 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace sales_forms.Models
 {
-    public class Option
+    public class Option : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
         [Required]
         public required long QuestionId { get; set; }
 

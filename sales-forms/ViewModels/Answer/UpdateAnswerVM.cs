@@ -2,8 +2,9 @@
 
 namespace sales_forms.ViewModels
 {
-    public class UpdateAnswerVM : ViewModelBase
+    public class UpdateAnswerVM : ViewModelBase, IUpdateVM
     {
+        public long Id { get; set; }
         public long? ParticipantId { get; set; }
 
         public long? QuestionId { get; set; }
