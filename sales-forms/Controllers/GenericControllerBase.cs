@@ -7,7 +7,7 @@ using sales_forms.Models;
 
 namespace sales_forms.Controllers
 {
-    public class GenericControllerBase<TEntity, TCreateVM, TUpdateVM> 
+    public class GenericControllerBase<TEntity, TCreateVM, TUpdateVM> : ControllerBase
         where TEntity : class, IBaseEntity
         where TCreateVM : class
         where TUpdateVM : class, IUpdateVM
@@ -24,13 +24,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TEntity> Get()
+        public virtual IEnumerable<TEntity> Get()
         {
             return _dbSet.AsNoTracking().ToList();
         }
 
         [HttpGet("{id}")]
-        public TEntity? Get(long id, bool tracking = true)
+        public virtual TEntity? Get(long id, bool tracking = true)
         {
             if (tracking)
             {
@@ -41,7 +41,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPost]
-        public TEntity? Post([FromBody] TCreateVM createVM)
+        public virtual TEntity? Post([FromBody] TCreateVM createVM)
         {
             TEntity entity = _mapper.Map<TEntity>(createVM);
             _dbSet.Add(entity);
@@ -51,7 +51,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpPut("{id}")]
-        public TEntity? Put([FromBody] TUpdateVM entityData)
+        public virtual TEntity? Put([FromBody] TUpdateVM entityData)
         {
             TEntity? entity = _dbSet.SingleOrDefault(q => q.Id == entityData.Id);
 
@@ -65,7 +65,7 @@ namespace sales_forms.Controllers
         }
 
         [HttpDelete("{id}")]
-        public TEntity? Delete(long id)
+        public virtual TEntity? Delete(long id)
         {
             var entity = _dbSet.SingleOrDefault(q => q.Id == id);
 

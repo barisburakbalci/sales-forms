@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace sales_forms.Models
 {
-	public class AppUser : IdentityUser<long>
+	public class AppUser : IdentityUser<long>, IBaseEntity
 	{
         [Required]
         public required string Name { get; set; }
