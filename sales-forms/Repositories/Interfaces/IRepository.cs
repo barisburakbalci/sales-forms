@@ -1,7 +1,7 @@
 ﻿namespace sales_forms.Repositories.Interfaces
 {
-    public interface IRepository<TEntity> 
-        where TEntity : class, new()
+    public interface IRepository<TEntity>
+        where TEntity : class
     {
         List<TEntity> GetAll();
         TEntity? Get(long id);

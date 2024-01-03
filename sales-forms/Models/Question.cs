@@ -15,7 +15,7 @@ namespace sales_forms.Models
         [ForeignKey("FormId"), JsonIgnore]
         public Form? Form { get; set; }
 
-        public ICollection<Answer>? Answers { get; }
-        public ICollection<Option>? Options {  get; }
+        public ICollection<Answer> Answers { get; } = new List<Answer>();
+        public ICollection<Option> Options {  get; } = new List<Option>();
     }
 }

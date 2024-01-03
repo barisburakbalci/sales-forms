@@ -3,8 +3,8 @@ using sales_forms.Repositories.Interfaces;
 
 namespace sales_forms.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> 
-        where TEntity : class, new()
+    public class Repository<TEntity> : IRepository<TEntity>
+        where TEntity : class
     {
         private readonly FormDbContext _dbContext;
 

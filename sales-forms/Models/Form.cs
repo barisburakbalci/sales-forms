@@ -15,6 +15,6 @@ namespace sales_forms.Models
         [ForeignKey("FolderId"), JsonIgnore]
         public Folder? Folder { get; set; }
 
-        public ICollection<Question>? Questions { get; }
+        public ICollection<Question> Questions { get; } = new List<Question>();
     }
 }
