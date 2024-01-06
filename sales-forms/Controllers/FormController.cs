@@ -15,12 +15,13 @@ namespace sales_forms.Controllers
         }
 
         [HttpGet("{id}/detailed")]
-        public List<Form> GetDetailed(long id)
+        public Form GetDetailed(long id)
         {
             return _dbContext.Forms
+                .Where(form => form.Id == id)
                 .Include(form => form.Questions)
                 .ThenInclude(question => question.Options)
-                .ToList();
+                .First();
         }
     }
 }
