@@ -14,19 +14,7 @@ namespace sales_forms.Controllers
         {
         }
 
-        [HttpGet("{id}/withForms")]
-        public List<Form> Get(long id)
-        {
-            return (from participant in _dbContext.Participants
-                    join answer in _dbContext.Answers on participant.Id equals answer.ParticipantId
-                    join question in _dbContext.Questions on answer.QuestionId equals question.Id
-                    join option in _dbContext.Options on answer.OptionId equals option.Id
-                    join form in _dbContext.Forms on question.FormId equals form.Id
-                    where participant.Id == id
-                    select form).Distinct().ToList();
-        }
-
-        [HttpGet("{id}/withFormDetails")]
+        [HttpGet("{id}/detailed")]
         public List<Form> GetDetailed(long id)
         {
             return (from participant in _dbContext.Participants
