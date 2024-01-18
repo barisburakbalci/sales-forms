@@ -21,6 +21,8 @@ namespace sales_forms.Controllers
                 .Where(form => form.Id == id)
                 .Include(form => form.Questions)
                 .ThenInclude(question => question.Options)
+                .Include(form => form.Questions)
+                .ThenInclude(question => question.Answers)
                 .First();
         }
     }
